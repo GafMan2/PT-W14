@@ -1,5 +1,7 @@
 package pet.store.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,10 +23,12 @@ public class Employee {
 	private String employeeLastName;
 	private String employeePhone;
 	private String employeeJobTitle;
+	private String employeeEmail;
 	
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "pet_store_id")
+	@JsonIgnore
 	private PetStore petStore;
 }

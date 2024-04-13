@@ -22,5 +22,7 @@ public class PetStoreCustomer {
         this.customerFirstName = customer.getCustomerFirstName();
         this.customerLastName = customer.getCustomerLastName();
         this.customerEmail = customer.getCustomerEmail();
+
+        }
     }
-}
+    

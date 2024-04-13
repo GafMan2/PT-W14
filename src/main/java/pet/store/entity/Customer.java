@@ -3,6 +3,8 @@ package pet.store.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,8 +26,20 @@ public class Customer {
 	private String customerLastName;
 	private String customerEmail;
 	
+	@JsonIgnore
 	@EqualsAndHashCode.Exclude
-	@ToString.Exclude
-	@ManyToMany(mappedBy = "customers", cascade = CascadeType.PERSIST)
-	private Set<PetStore> petStore = new HashSet<>();
-}
+    @ToString.Exclude
+    @ManyToMany(mappedBy = "customers", cascade = CascadeType.PERSIST)
+    private Set<PetStore> petStores = new HashSet<>();
+
+	  public void setPetStores(Set<PetStore> petStores) {
+	        this.petStores = petStores;
+	
+	}
+	  public void addPetStore(PetStore petStore) {
+	        if (petStore != null) {
+	            petStores.add(petStore);
+	            petStore.getCustomers().add(this); // Bidirectional association
+	        }
+	    }
+	}
