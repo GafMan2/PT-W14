@@ -1,9 +1,11 @@
 package pet.store.controller;
 
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +21,7 @@ import pet.store.controller.model.PetStoreData;
 import pet.store.service.PetStoreService;
 
 @RestController
-@RequestMapping("/pet_store")
+@RequestMapping
 @Slf4j
 public class PetStoreController {
 
@@ -40,23 +42,24 @@ public class PetStoreController {
 		return petStoreService.savePetStore(petStoreData);
 	}
 	
-	@GetMapping("/pet_store")
+	@GetMapping("/pet_stores")
 	public List<PetStoreData> retrieveAllPetStores() {
-		log.info("Retrieve all pet stores that are called");
+		log.info("Retrieving all pet stores");
 		return petStoreService.retrieveAllPetStores();
 	}
 	
-	@GetMapping("/petStore/{petStoreId}")
+	@GetMapping("/pet_store/{petStoreId}")
 	public PetStoreData retrievePetStoreById(@PathVariable Long petStoreId) {
 		log.info("Retrieving pet store with ID={}", petStoreId);
 		return petStoreService.retrievePetStoreById(petStoreId);
 	}     
 	
-	@DeleteMapping("/petStore/{petStoreId}")
-	public void deletePetStoreById(@PathVariable Long petStoreId) {
-		log.info("Deleting pet store with ID={}", + petStoreId + " has been deleted successfully");
-		 petStoreService.deletePetStoreById(petStoreId);
-		 
-	}
-}
+    @DeleteMapping("/pet_store/{petStoreId}")
+    public ResponseEntity<String> deletePetStoreById(@PathVariable Long petStoreId) {
+        log.info("Deleting pet store with ID={}", petStoreId);
+        petStoreService.deletePetStoreById(petStoreId);
 
+        String message = "Pet store with ID=" + petStoreId + " successfully deleted.";
+        return ResponseEntity.status(HttpStatus.OK).body(message);
+    }
+}
